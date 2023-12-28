@@ -4,6 +4,7 @@ from django.views.decorators.csrf import csrf_exempt
 from django.http.response import JsonResponse
 from rest_framework.parsers import JSONParser
 from chat.serializers import MessageSerializer
+from django.contrib.auth.decorators import login_required
 
 
 def getFriendsList(id):
@@ -35,7 +36,7 @@ def getUserId(username):
     id = use.id
     return id
 
-
+@login_required(login_url='login')
 def index(request):
     """
     Return the home page
@@ -47,11 +48,14 @@ def index(request):
         return render(request, "chat/index.html", {})
     else:
         username = request.user.username
-        id = getUserId(username)
+        print('user',username)
+        user = UserProfile.objects.get(username=username)
+        id =  user.id
+        #id = getUserId(username)
         friends = getFriendsList(id)
-        return render(request, "chat/Base.html", {'friends': friends})
+        return render(request, "chat/Base.html", {'friends': friends,'user':username})
 
-
+@login_required(login_url='login')
 def search(request):
     """
     Search users page
@@ -59,6 +63,7 @@ def search(request):
     :return:
     """
     users = list(UserProfile.objects.all())
+    print('users',users)
     for user in users:
         if user.username == request.user.username:
             users.remove(user)
@@ -107,7 +112,7 @@ def addFriend(request, name):
         friend.friends_set.create(friend=id)
     return redirect("/search")
 
-
+@login_required(login_url='login')
 def chat(request, username):
     """
     Get the chat between two users.
@@ -134,6 +139,7 @@ def message_list(request, sender=None, receiver=None):
         messages = Messages.objects.filter(sender_name=sender, receiver_name=receiver, seen=False)
         serializer = MessageSerializer(messages, many=True, context={'request': request})
         for message in messages:
+            print(message,"messages")
             message.seen = True
             message.save()
         return JsonResponse(serializer.data, safe=False)

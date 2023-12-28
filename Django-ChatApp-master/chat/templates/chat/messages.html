@@ -5,13 +5,15 @@
 {% for message in messages %}
     {% if curr_user == message.sender_name %}
         <div class="container darker">
-            <img src="{% static 'images/user_image.jpg' %}" alt="Avatar" class="right" style="width:100%;">
+            <img src="{{curr_user.pic.url}}" alt="Avatar" class="right" style="width:100%;">
             <p>{{message.description}}</p>
             <span class="time-right">{{message.time}}</span>
         </div>
+
+        
     {% else %}
         <div class="container">
-            <img src="{% static 'images/user_image.jpg' %}" alt="Avatar" style="width:100%;">
+            <img src="{{friend.pic.url}}" alt="Avatar" style="width:100%;">
             <p>{{message.description}}</p>
             <span class="time-left">{{message.time}}</span>
         </div>
@@ -29,7 +31,7 @@ $(function () {
 })
 
 const text = '<div class="container">'
-            + '<img src="{% static 'images/user_image.jpg' %}" alt="Avatar" style="width:100%;">' +
+            + '<img src="{IMAGE}" alt="Avatar" style="width:100%;">' +
             '<p>{description}</p>' +
             '<span class="time-left">{time}</span>' +
             '</div>'

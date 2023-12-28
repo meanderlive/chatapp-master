@@ -6,6 +6,7 @@ class UserProfile(models.Model):
     name = models.CharField(max_length=25)
     email = models.EmailField(unique=True)
     username = models.CharField(max_length=20, unique=True)
+    pic = models.ImageField(upload_to='favourite/%Y/%m/%d/',blank=True)
 
     def __str__(self):
         return f"{self.name}"
@@ -18,7 +19,7 @@ class Messages(models.Model):
     receiver_name = models.ForeignKey(UserProfile, on_delete=models.CASCADE, related_name='receiver')
     time = models.TimeField(auto_now_add=True)
     seen = models.BooleanField(default=False)
-    timestamp = models.DateTimeField(auto_now_add=True)
+    timestamp = models.DateTimeField(auto_now_add=True,null=True)
 
     def __str__(self):
         return f"To: {self.receiver_name} From: {self.sender_name}"

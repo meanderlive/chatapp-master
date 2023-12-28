@@ -4,7 +4,9 @@
 {% block  content %}
 
         <div style="margin-top: 12px">
-            <h3>{{friend.name}}</h3>
+            <h3>{{friend.name}}</h3><span>
+                <img src="{{ friend.pic.url }}" alt="Avatar" class="right" style="width:10%;">
+            </span>
         </div>
         <div class="messages" id="board">
             {% block message %}
@@ -36,7 +38,7 @@
          }
 
         const text_box = '<div class="container darker">' +
-            '<img src="{% static 'images/user_image.jpg' %}" alt="Avatar" class="right" style="width:100%;">' +
+            '<img src="" alt="Avatar" class="right" style="width:100%;">' +
             '<p>{description}</p>' +
             '<span class="time-right">{time}</span>' +
             '</div>'

@@ -23,7 +23,7 @@
             <button onclick="myFunction()" class="btn btn-success">Menu</button>
             <div id="myDropdown" class="dropdown-content">
                 <a href="/search">Search</a>
-                <a href="/logout">Logout</a>
+                <a href="{% url 'logout' %}">Logout</a>
               </div>
         </div>
         </div>
@@ -36,7 +36,7 @@
                         <li class="list-group-item list-group-item-action">
                             <div class="row">
                                 <div class="col">
-                                    <img src="{% static 'images/user_image.jpg' %}" style="width: 50px; height: 50px;">
+                                    <img src="{{ friend.pic.url }}" style="width: 50px; height: 50px;">
                                 </div>
                                 <div class="col">
                                     <div class="row" style="font-color: #000"><p>{{friend.name}}</p></div>
